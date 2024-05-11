@@ -133,11 +133,18 @@ class _NotePageState extends State<NotePage> {
                 itemBuilder: (context, index) {
                   //get the individual note
                   final note = currentNotess[index];
-                  return NoteTile(
-                    text: note.text,
-                    onDeletePressed: (p0) => deleteNote(note.id),
-                    onEditPressed: (p0) => updateNote(note),
-                  );
+                  return currentNotess.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'No Notes',
+                            style: TextStyle(color: Colors.brown),
+                          ),
+                        )
+                      : NoteTile(
+                          text: note.text,
+                          onDeletePressed: (p0) => deleteNote(note.id),
+                          onEditPressed: (p0) => updateNote(note),
+                        );
                 },
               ),
             ),

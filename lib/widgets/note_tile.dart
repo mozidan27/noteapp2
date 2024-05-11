@@ -42,7 +42,7 @@ class NoteTile extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(16),
-        margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: Theme.of(context).colorScheme.primary),
