@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note2/models/note_database.dart';
 import 'package:note2/note_page.dart';
+import 'package:note2/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -9,8 +10,15 @@ void main() async {
   await NoteDatabase.initialize();
   // run app
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => NoteDatabase(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => NoteDatabase(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Themeprovider(),
+        )
+      ],
       child: const MyApp(),
     ),
   );
@@ -21,9 +29,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: NotePage(),
+      home: const NotePage(),
+      theme: Provider.of<Themeprovider>(context).themeData,
     );
   }
 }
