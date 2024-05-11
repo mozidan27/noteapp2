@@ -28,6 +28,7 @@ class NoteDatabase extends ChangeNotifier {
       () => isar.notes.put(newNote),
       // re-read from db
     );
+    fetchNotes();
   }
 
   // read - notes from db
