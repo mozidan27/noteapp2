@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:note2/models/note.dart';
 import 'package:path_provider/path_provider.dart';
 
-class NoteDatabase {
+class NoteDatabase extends ChangeNotifier {
   // isar instance
   static late Isar isar;
 
@@ -37,6 +38,7 @@ class NoteDatabase {
     currentNotes.clear();
     // add all notes to currentNotes
     currentNotes.addAll(fechedNotes);
+    notifyListeners();
   }
 
   // update - note in db
