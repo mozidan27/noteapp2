@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note2/models/note_database.dart';
 import 'package:note2/pages/note_page.dart';
+import 'package:note2/theme/theme.dart';
 import 'package:note2/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const NotePage(),
       theme: Provider.of<Themeprovider>(context).themeData,
+      darkTheme: dartMode,
     );
   }
 }

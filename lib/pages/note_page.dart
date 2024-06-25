@@ -14,17 +14,17 @@ class NotePage extends StatefulWidget {
 }
 
 class _NotePageState extends State<NotePage> {
-  //create a text controller
+  // Create a text controller
   final textController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // on app startup, fetch existing notes
+    // On app startup, fetch existing notes
     readNotes();
   }
 
-  //create a note
+  // Create a note
   void createNote(BuildContext context) {
     showDialog(
       context: context,
@@ -34,29 +34,29 @@ class _NotePageState extends State<NotePage> {
           controller: textController,
         ),
         actions: [
-          // create  button
+          // Create button
           MaterialButton(
             onPressed: () {
-              // add to db
+              // Add to db
               context.read<NoteDatabase>().addNote(textController.text);
-              //clear the text field
+              // Clear the text field
               textController.clear();
-              //close the dialog
+              // Close the dialog
               Navigator.pop(context);
             },
-            child: const Text('create'),
+            child: const Text('Create'),
           ),
         ],
       ),
     );
   }
-  // read notes
 
+  // Read notes
   void readNotes() {
     context.read<NoteDatabase>().fetchNotes();
   }
 
-  //update a note
+  // Update a note
   void updateNote(Note note) {
     textController.text = note.text;
     showDialog(
@@ -69,13 +69,13 @@ class _NotePageState extends State<NotePage> {
         actions: [
           MaterialButton(
             onPressed: () {
-              //update the note
+              // Update the note
               context
                   .read<NoteDatabase>()
                   .updateNote(note.id, textController.text);
-              //close the dialog
+              // Close the dialog
               Navigator.pop(context);
-              //clear the text field
+              // Clear the text field
               textController.clear();
             },
             child: const Text('Update'),
@@ -85,21 +85,20 @@ class _NotePageState extends State<NotePage> {
     );
   }
 
-  // delete a note
-
+  // Delete a note
   void deleteNote(int id) {
     context.read<NoteDatabase>().deleteNote(id);
   }
 
   @override
   Widget build(BuildContext context) {
-    //get the database
+    // Get the database
     final noteDatabase = context.watch<NoteDatabase>();
-    //get the current notes
-    List<Note> currentNotess = noteDatabase.currentNotes;
-    return Consumer(
+    // Get the current notes
+    List<Note> currentNotes = noteDatabase.currentNotes;
+    return Consumer<NoteDatabase>(
       builder: (context, value, child) => Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -128,25 +127,28 @@ class _NotePageState extends State<NotePage> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: currentNotess.length,
-                itemBuilder: (context, index) {
-                  //get the individual note
-                  final note = currentNotess[index];
-                  return currentNotess.isEmpty
-                      ? const Center(
-                          child: Text(
-                            'No Notes',
-                            style: TextStyle(color: Colors.brown),
-                          ),
-                        )
-                      : NoteTile(
+              child: currentNotes.isEmpty
+                  ? Center(
+                      child: Text(
+                        'No Notes',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontSize: 28,
+                        ),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: currentNotes.length,
+                      itemBuilder: (context, index) {
+                        // Get the individual note
+                        final note = currentNotes[index];
+                        return NoteTile(
                           text: note.text,
                           onDeletePressed: (p0) => deleteNote(note.id),
                           onEditPressed: (p0) => updateNote(note),
                         );
-                },
-              ),
+                      },
+                    ),
             ),
           ],
         ),
